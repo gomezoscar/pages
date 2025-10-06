@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Gestión Ganadera - Formulario de Descubrimiento</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.95;
+        }
+        
+        .form-content {
+            padding: 40px 30px;
+        }
+        
+        .section {
+            margin-bottom: 40px;
+            padding: 25px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .section h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+            display: flex;
+            align-items: center;
+        }
+        
+        .section h2::before {
+            content: '';
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            margin-right: 10px;
+            background: #667eea;
+            border-radius: 50%;
+            opacity: 0.2;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #555;
+        }
+        
+        input[type="text"],
+        input[type="number"],
+        input[type="email"],
+        input[type="tel"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+        
+        input:focus,
+        textarea:focus,
+        select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+        
+        .checkbox-group,
+        .radio-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 10px;
+        }
+        
+        .checkbox-item,
+        .radio-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            background: white;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+        
+        .checkbox-item:hover,
+        .radio-item:hover {
+            background: #f0f0f0;
+            transform: translateX(5px);
+        }
+        
+        input[type="checkbox"],
+        input[type="radio"] {
+            width: 20px;
+            height: 20px;
+            margin-right: 12px;
+            cursor: pointer;
+        }
+        
+        .checkbox-item label,
+        .radio-item label {
+            cursor: pointer;
+            margin: 0;
+            font-weight: 400;
+        }
+        
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        .priority-list {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .submit-section {
+            text-align: center;
+            padding: 40px 30px;
+            background: #f8f9fa;
+        }
+        
+        .submit-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 50px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.2em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+        
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+        
+        .info-box {
+            background: #e8f4fd;
+            border-left: 4px solid #2196F3;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+        
+        .success-message {
+            display: none;
+            background: #4CAF50;
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                border-radius: 0;
+            }
+            
+            .header h1 {
+                font-size: 1.8em;
+            }
+            
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-content,
+            .header {
+                padding: 20px;
+            }
+        }
+        
+        .progress-bar {
+            height: 6px;
+            background: #e0e0e0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressBar"></div>
+        </div>
+        
+        <div class="header">
+            <h1>🐄 Sistema de Gestión Ganadera</h1>
+            <p>Formulario de Descubrimiento de Necesidades</p>
+            <p style="margin-top: 10px; font-size: 0.95em; opacity: 0.9;">Tiempo estimado: 15-20 minutos</p>
+        </div>
+        
+        <form id="discoveryForm">
+            <div class="form-content">
+                
+                <!-- Sección 1: Información de la Operación -->
+                <div class="section">
+                    <h2>Parte 1: Información de su Operación</h2>
+                    
+                    <div class="form-group">
+                        <label for="farmName">Nombre de la Finca/Rancho:*</label>
+                        <input type="text" id="farmName" name="farmName" required>
+                    </div>
+                    
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label for="role">Su cargo/rol:*</label>
+                            <input type="text" id="role" name="role" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="cattleCount">Número de cabezas de ganado:*</label>
+                            <input type="number" id="cattleCount" name="cattleCount" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Tipo de operación principal:*</label>
+                        <div class="radio-group">
+                            <div class="radio-item">
+                                <input type="radio" id="dairy" name="operationType" value="lecheria" required>
+                                <label for="dairy">Lechería</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="beef" name="operationType" value="carne" required>
+                                <label for="beef">Carne</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="mixed" name="operationType" value="mixta" required>
+                                <label for="mixed">Mixta</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="other" name="operationType" value="otra" required>
+                                <label for="other">Otra</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="workerCount">Número de trabajadores que usarían el sistema:</label>
+                        <input type="number" id="workerCount" name="workerCount">
+                    </div>
+                </div>
+                
+                <!-- Sección 2: Identificación de Animales -->
+                <div class="section">
+                    <h2>Parte 2: Identificación de Animales</h2>
+                    
+                    <div class="form-group">
+                        <label>¿Cómo identifican actualmente a sus animales? (marque todos los que apliquen)</label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="earTags" name="identification" value="aretes_oficiales">
+                                <label for="earTags">Aretes oficiales</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="farmNumbers" name="identification" value="numeros_finca">
+                                <label for="farmNumbers">Números asignados por la finca</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="names" name="identification" value="nombres">
+                                <label for="names">Nombres/apodos</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="physical" name="identification" value="descripcion_fisica">
+                                <label for="physical">Descripción física (color, marcas, etc.)</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="birthExample">Cuando un trabajador reporta un nacimiento, ¿qué escribe? (ejemplo real):</label>
+                        <textarea id="birthExample" name="birthExample" placeholder="Ej: 'Parió la 234' o 'La Manchita tuvo cría'"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="descriptionExample">Cuando no pueden ver el arete, ¿cómo describen al animal?</label>
+                        <textarea id="descriptionExample" name="descriptionExample" placeholder="Ej: 'La vaca negra con mancha blanca en la frente'"></textarea>
+                    </div>
+                </div>
+                
+                <!-- Sección 3: Comunicación Diaria -->
+                <div class="section">
+                    <h2>Parte 3: Comunicación y Operaciones Diarias</h2>
+                    
+                    <div class="form-group">
+                        <label>¿Cómo reportan los trabajadores actualmente? (marque todos los que apliquen)</label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="whatsappText" name="communication" value="whatsapp_texto">
+                                <label for="whatsappText">Mensajes de texto por WhatsApp</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="whatsappVoice" name="communication" value="whatsapp_voz">
+                                <label for="whatsappVoice">Mensajes de voz por WhatsApp</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="photos" name="communication" value="fotos">
+                                <label for="photos">Fotos</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="calls" name="communication" value="llamadas">
+                                <label for="calls">Llamadas telefónicas</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="paper" name="communication" value="papel">
+                                <label for="paper">Formularios en papel</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="milkExample">Ejemplo de mensaje sobre producción de leche:</label>
+                        <textarea id="milkExample" name="milkExample" placeholder="Ej: 'La 15 dio 20 litros'"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="healthExample">Ejemplo de mensaje sobre un problema de salud:</label>
+                        <textarea id="healthExample" name="healthExample" placeholder="Ej: 'La 102 está cojeando de la pata delantera'"></textarea>
+                    </div>
+                </div>
+                
+                <!-- Sección 4: Genealogía y Producción -->
+                <div class="section">
+                    <h2>Parte 4: Datos de Genealogía y Producción</h2>
+                    
+                    <div class="form-group">
+                        <label>¿Cuántas generaciones hacia atrás necesita rastrear para decisiones de cría?</label>
+                        <div class="radio-group">
+                            <div class="radio-item">
+                                <input type="radio" id="gen2" name="generations" value="2">
+                                <label for="gen2">2 generaciones</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="gen3" name="generations" value="3">
+                                <label for="gen3">3 generaciones</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="gen45" name="generations" value="4-5">
+                                <label for="gen45">4-5 generaciones</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="genMore" name="generations" value="mas">
+                                <label for="genMore">Más de 5</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>¿Usa inseminación artificial?</label>
+                        <div class="radio-group">
+                            <div class="radio-item">
+                                <input type="radio" id="aiYes" name="artificialInsemination" value="si">
+                                <label for="aiYes">Sí</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="aiNo" name="artificialInsemination" value="no">
+                                <label for="aiNo">No</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="milkFrequency">Si maneja lechería, ¿con qué frecuencia registra la producción?</label>
+                        <select id="milkFrequency" name="milkFrequency">
+                            <option value="">No aplica</option>
+                            <option value="por_ordeno">Por sesión de ordeño</option>
+                            <option value="diario">Total diario</option>
+                            <option value="semanal">Semanal</option>
+                            <option value="otro">Otro</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <!-- Sección 5: Alertas Necesarias -->
+                <div class="section">
+                    <h2>Parte 5: Notificaciones y Alertas</h2>
+                    
+                    <div class="form-group">
+                        <label>¿Qué eventos necesitan notificación inmediata? (marque todos los importantes)</label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="alertBirth" name="alerts" value="nacimientos">
+                                <label for="alertBirth">Nacimientos</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="alertDeath" name="alerts" value="muertes">
+                                <label for="alertDeath">Muertes</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="alertEscape" name="alerts" value="escapes">
+                                <label for="alertEscape">Escapes</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="alertHealth" name="alerts" value="enfermedad">
+                                <label for="alertHealth">Enfermedad/lesión</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="alertProduction" name="alerts" value="baja_produccion">
+                                <label for="alertProduction">Caída significativa en producción</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="alertHeat" name="alerts" value="celo">
+                                <label for="alertHeat">Detección de celo</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Sección 6: Reportes Importantes -->
+                <div class="section">
+                    <h2>Parte 6: Reportes Más Importantes</h2>
+                    
+                    <div class="info-box">
+                        📊 Seleccione los 5 reportes más importantes para su operación
+                    </div>
+                    
+                    <div class="form-group">
+                        <div class="priority-list">
+                            <div class="checkbox-group">
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="reportBirths" name="reports" value="nacimientos_muertes">
+                                    <label for="reportBirths">Nacimientos y muertes diarios</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="reportMilk" name="reports" value="produccion_leche">
+                                    <label for="reportMilk">Producción de leche actual</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="reportBreeding" name="reports" value="animales_cria">
+                                    <label for="reportBreeding">Animales listos para cría</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="reportLocation" name="reports" value="ubicacion">
+                                    <label for="reportLocation">Ubicación/inventario de animales</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="reportHealth" name="reports" value="historial_salud">
+                                    <label for="reportHealth">Historial de tratamientos de salud</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="reportTrends" name="reports" value="tendencias">
+                                    <label for="reportTrends">Tendencias de producción en el tiempo</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="reportGenealogy" name="reports" value="genealogia">
+                                    <label for="reportGenealogy">Árboles genealógicos</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="reportPerformance" name="reports" value="rendimiento">
+                                    <label for="reportPerformance">Mejores/peores productores</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="reportFinancial" name="reports" value="financiero">
+                                    <label for="reportFinancial">Resúmenes financieros</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Sección 7: Problemas Actuales -->
+                <div class="section">
+                    <h2>Parte 7: Sus Mayores Desafíos</h2>
+                    
+                    <div class="form-group">
+                        <label for="problem1">¿Cuál es el MAYOR problema con su sistema actual?*</label>
+                        <textarea id="problem1" name="problem1" required placeholder="Describa el problema más importante que enfrenta..."></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="problem2">¿Cuál es el SEGUNDO problema más importante?</label>
+                        <textarea id="problem2" name="problem2" placeholder="Describa otro desafío importante..."></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="problem3">¿Cuál es el TERCER problema más importante?</label>
+                        <textarea id="problem3" name="problem3" placeholder="Describa otro desafío..."></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="oneFeature">Si el sistema pudiera hacer UNA cosa perfectamente, ¿qué le daría más valor?*</label>
+                        <textarea id="oneFeature" name="oneFeature" required placeholder="Describa la funcionalidad más importante para usted..."></textarea>
+                    </div>
+                </div>
+                
+                <!-- Sección 8: Contacto y Seguimiento -->
+                <div class="section">
+                    <h2>Parte 8: Información de Contacto (Opcional)</h2>
+                    
+                    <div class="form-group">
+                        <label for="contactName">Nombre:</label>
+                        <input type="text" id="contactName" name="contactName">
+                    </div>
+                    
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label for="whatsapp">Número de WhatsApp:</label>
+                            <input type="tel" id="whatsapp" name="whatsapp" placeholder="+57 300 123 4567">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email">Correo electrónico:</label>
+                            <input type="email" id="email" name="email">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>¿Estaría dispuesto a...?</label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="testEarly" name="followup" value="probar_version">
+                                <label for="testEarly">Probar una versión temprana del sistema</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="feedback" name="followup" value="dar_feedback">
+                                <label for="feedback">Proporcionar retroalimentación durante el desarrollo</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="shareExamples" name="followup" value="compartir_ejemplos">
+                                <label for="shareExamples">Compartir más ejemplos de mensajes</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="followCall" name="followup" value="llamada_seguimiento">
+                                <label for="followCall">Tener una llamada de seguimiento</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="additionalComments">¿Algo más que deberíamos saber sobre su operación?</label>
+                        <textarea id="additionalComments" name="additionalComments" placeholder="Comentarios adicionales..."></textarea>
+                    </div>
+                </div>
+                
+            </div>
+            
+            <div class="submit-section">
+                <div class="success-message" id="successMessage">
+                    ✅ ¡Gracias! Su formulario ha sido enviado exitosamente.
+                </div>
+                <button type="submit" class="submit-btn">Enviar Formulario</button>
+                <p style="margin-top: 20px; color: #666; font-size: 0.9em;">
+                    💡 Su información nos ayudará a crear un sistema que realmente funcione para operaciones ganaderas como la suya.
+                </p>
+            </div>
+        </form>
+    </div>
+    
+    <script>
+        // ============================================
+        // CONFIGURACIÓN - ELIJA UNA OPCIÓN:
+        // 
+        // Opción 1: Google Sheets (requiere cuenta Google)
+        // const GOOGLE_SCRIPT_URL = 'YOUR_GOOGLE_SCRIPT_URL_HERE';
+        // 
+        // Opción 2: Web3Forms (más fácil, sin login)
+        // 1. Vaya a https://web3forms.com
+        // 2. Ingrese su email y obtenga su Access Key
+        // 3. Reemplace YOUR_ACCESS_KEY_HERE con su key
+        // ============================================
+        
+        const WEB3FORMS_KEY = '4c004f14-6497-4e84-bf2a-ff83ed3581dc';
+        const USE_WEB3FORMS = true; // Cambiar a false para usar Google Sheets
+        
+        // Update progress bar as user scrolls
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById('progressBar').style.width = scrolled + '%';
+        });
+        
+        // Limit checkbox selections for reports
+        const reportCheckboxes = document.querySelectorAll('input[name="reports"]');
+        reportCheckboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                const checkedBoxes = document.querySelectorAll('input[name="reports"]:checked');
+                if (checkedBoxes.length > 5) {
+                    this.checked = false;
+                    alert('Por favor seleccione solo los 5 reportes más importantes');
+                }
+            });
+        });
+        
+        // Handle form submission
+        document.getElementById('discoveryForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            // Change button to show loading
+            const submitBtn = document.querySelector('.submit-btn');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = 'Enviando...';
+            submitBtn.disabled = true;
+            
+            // Collect all form data
+            const formData = new FormData(this);
+            const data = {};
+            
+            // Process text inputs
+            for (let [key, value] of formData.entries()) {
+                if (data[key]) {
+                    // Handle multiple values (checkboxes)
+                    if (Array.isArray(data[key])) {
+                        data[key].push(value);
+                    } else {
+                        data[key] = [data[key], value];
+                    }
+                } else {
+                    data[key] = value;
+                }
+            }
+            
+            // Add timestamp
+            data.timestamp = new Date().toISOString();
+            
+            // Send data
+            try {
+                let success = false;
+                
+                if (USE_WEB3FORMS && WEB3FORMS_KEY !== '4c004f14-6497-4e84-bf2a-ff83ed3581dc') {
+                    // Send via Web3Forms (easier, no Google login required)
+                    const response = await fetch('https://api.web3forms.com/submit', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            access_key: WEB3FORMS_KEY,
+                            ...data,
+                            subject: `Nueva respuesta - ${data.farmName || 'Sin nombre'}`,
+                        })
+                    });
+                    
+                    const result = await response.json();
+                    success = result.success;
+                    
+                    if (success) {
+                        console.log('Data sent successfully via Web3Forms');
+                    } else {
+                        console.error('Web3Forms error:', result);
+                    }
+                    
+                } else if (!USE_WEB3FORMS && typeof GOOGLE_SCRIPT_URL !== 'undefined' && GOOGLE_SCRIPT_URL !== 'YOUR_GOOGLE_SCRIPT_URL_HERE') {
+                    // Send via Google Sheets
+                    const response = await fetch(GOOGLE_SCRIPT_URL, {
+                        method: 'POST',
+                        mode: 'no-cors',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(data)
+                    });
+                    
+                    success = true; // no-cors doesn't return response
+                    console.log('Data sent to Google Sheets');
+                    
+                } else {
+                    // Fallback to localStorage
+                    const responses = JSON.parse(localStorage.getItem('cattleFormResponses') || '[]');
+                    responses.push(data);
+                    localStorage.setItem('cattleFormResponses', JSON.stringify(responses));
+                    console.log('Configuration pending: Data saved locally. Configure Web3Forms or Google Sheets to enable cloud storage.');
+                    success = true;
+                }
+                
+                if (success) {
+                    // Show success message
+                    document.getElementById('successMessage').style.display = 'block';
+                    
+                    // Scroll to top
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                    
+                    // Reset form after 5 seconds
+                    setTimeout(() => {
+                        if (confirm('¿Desea limpiar el formulario para un nuevo envío?')) {
+                            this.reset();
+                            document.getElementById('successMessage').style.display = 'none';
+                        }
+                    }, 5000);
+                } else {
+                    throw new Error('Failed to submit form');
+                }
+                
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Hubo un error al enviar el formulario. Los datos se guardaron localmente. Por favor intente de nuevo.');
+                
+                // Save to localStorage as backup
+                const responses = JSON.parse(localStorage.getItem('cattleFormResponses') || '[]');
+                responses.push(data);
+                localStorage.setItem('cattleFormResponses', JSON.stringify(responses));
+            } finally {
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+            }
+        });
+        
+        // Add a function to export data (you can call this from console)
+        window.exportFormData = function() {
+            const data = localStorage.getItem('cattleFormResponses');
+            const blob = new Blob([data], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'cattle_form_responses_' + new Date().getTime() + '.json';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        };
+    </script>
+</body>
+</html>
